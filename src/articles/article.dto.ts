@@ -1,6 +1,6 @@
 import { IsString, IsNotEmpty } from 'class-validator';
 
-export class CreateArticleDto {
+export class ArticleDto {
   @IsString()
   @IsNotEmpty()
   title: string;
@@ -8,4 +8,7 @@ export class CreateArticleDto {
   @IsString()
   @IsNotEmpty()
   content: string;
+
+  @IsString()
+  description?: string;
 }

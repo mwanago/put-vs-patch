@@ -8,9 +8,8 @@ import {
   Post,
 } from '@nestjs/common';
 import { ArticlesService } from './articles.service';
-import { CreateArticleDto } from './dto/createArticle.dto';
-import { UpdateArticleDto } from './dto/updateArticle.dto';
 import { FindOneParams } from '../utils/findOneParams';
+import { ArticleDto } from './article.dto';
 
 @Controller('articles')
 export class ArticlesController {
@@ -27,14 +26,14 @@ export class ArticlesController {
   }
 
   @Post()
-  async createArticle(@Body() article: CreateArticleDto) {
+  async createArticle(@Body() article: ArticleDto) {
     return this.articlesService.createArticle(article);
   }
 
   @Patch(':id')
   async updateArticle(
     @Param() { id }: FindOneParams,
-    @Body() article: UpdateArticleDto,
+    @Body() article: ArticleDto,
   ) {
     return this.articlesService.updateArticle(id, article);
   }
