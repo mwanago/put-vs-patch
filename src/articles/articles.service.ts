@@ -2,7 +2,8 @@ import { Injectable, NotFoundException } from '@nestjs/common';
 import { PrismaService } from '../prisma/prisma.service';
 import { PrismaClientKnownRequestError } from '@prisma/client/runtime';
 import { PrismaError } from '../prisma/prismaError';
-import { ArticleDto } from './article.dto';
+import { CreateArticleDto } from './dto/createArticle.dto';
+import { UpdateArticleDto } from './dto/updateArticle.dto';
 
 @Injectable()
 export class ArticlesService {
@@ -24,32 +25,22 @@ export class ArticlesService {
     return article;
   }
 
-  async createArticle(article: ArticleDto) {
+  async createArticle(article: CreateArticleDto) {
     return this.prismaService.article.create({
       data: article,
     });
   }
 
-  async updateArticle(id: number, article: ArticleDto) {
-    try {
-      return await this.prismaService.article.update({
-        data: {
-          ...article,
-          id: undefined,
-        },
-        where: {
-          id,
-        },
-      });
-    } catch (error) {
-      if (
-        error instanceof PrismaClientKnownRequestError &&
-        error.code === PrismaError.RecordDoesNotExist
-      ) {
-        throw new NotFoundException();
-      }
-      throw error;
-    }
+  async updateArticle(id: number, article: UpdateArticleDto) {
+    return await this.prismaService.article.update({
+      data: {
+        ...article,
+        id: undefined,
+      },
+      where: {
+        id,
+      },
+    });
   }
 
   async deleteArticle(id: number) {
