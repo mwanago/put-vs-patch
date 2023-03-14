@@ -6,11 +6,13 @@ import {
   Param,
   Patch,
   Post,
+  Put,
 } from '@nestjs/common';
 import { ArticlesService } from './articles.service';
 import { FindOneParams } from '../utils/findOneParams';
 import { CreateArticleDto } from './dto/createArticle.dto';
 import { UpdateArticleDto } from './dto/updateArticle.dto';
+import { ReplaceArticleDto } from './dto/replaceArticle.dto';
 
 @Controller('articles')
 export class ArticlesController {
@@ -37,6 +39,14 @@ export class ArticlesController {
     @Body() article: UpdateArticleDto,
   ) {
     return this.articlesService.updateArticle(id, article);
+  }
+
+  @Put(':id')
+  async replaceArticle(
+    @Param() { id }: FindOneParams,
+    @Body() article: ReplaceArticleDto,
+  ) {
+    return this.articlesService.replaceArticle(id, article);
   }
 
   @Delete(':id')

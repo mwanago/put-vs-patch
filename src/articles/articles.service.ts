@@ -4,6 +4,7 @@ import { PrismaClientKnownRequestError } from '@prisma/client/runtime';
 import { PrismaError } from '../prisma/prismaError';
 import { CreateArticleDto } from './dto/createArticle.dto';
 import { UpdateArticleDto } from './dto/updateArticle.dto';
+import { ReplaceArticleDto } from './dto/replaceArticle.dto';
 
 @Injectable()
 export class ArticlesService {
@@ -32,6 +33,18 @@ export class ArticlesService {
   }
 
   async updateArticle(id: number, article: UpdateArticleDto) {
+    return await this.prismaService.article.update({
+      data: {
+        ...article,
+        id: undefined,
+      },
+      where: {
+        id,
+      },
+    });
+  }
+
+  async replaceArticle(id: number, article: ReplaceArticleDto) {
     return await this.prismaService.article.update({
       data: {
         ...article,
